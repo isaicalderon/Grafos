@@ -1,0 +1,9 @@
+costo=no
+r s
+s r w
+t u w x
+u t y
+v
+w s t x
+x t w y
+y u x
