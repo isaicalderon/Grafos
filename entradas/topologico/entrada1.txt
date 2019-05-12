@@ -1,0 +1,10 @@
+dirigido=si
+costo=no
+Camisa Corbata Cinturon
+Corbata Saco
+Saco
+Reloj
+RopaInterior Pantalon Zapatos
+Pantalon Zapatos
+Cinturon Saco
+Calcetines Zapatos

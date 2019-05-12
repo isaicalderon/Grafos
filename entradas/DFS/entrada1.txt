@@ -1,3 +1,4 @@
+dirigido=si
 costo=no
 a b
 b c e f

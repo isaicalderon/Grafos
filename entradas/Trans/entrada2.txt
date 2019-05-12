@@ -1,0 +1,10 @@
+dirigido=si
+costo=si
+r s:2 v:2
+s r:3 w:4
+t u:2 w:3 x:4
+u t:1 y:3
+v r:2
+w s:3 t:4 x:5
+x t:2 w:3 y:4
+y u:2 x:3

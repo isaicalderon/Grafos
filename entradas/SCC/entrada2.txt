@@ -1,0 +1,10 @@
+dirigido=no
+costo=no
+r s v
+s w
+t u w x
+u y
+v
+w x
+x y
+y
