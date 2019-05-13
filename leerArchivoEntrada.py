@@ -3,7 +3,7 @@ import math
 import Nodo 
 import Arco
 import Grafo
-g = Grafo.Grafo()
+# g = Grafo.Grafo()
     
 def realizar_datos(archivo):
 
@@ -69,7 +69,8 @@ def realizar_datos(archivo):
             # end if
         # end for
     # end elif
-    archivo.close()
+    return g
+    # archivo.close()
 
 entrada1 = "entrada1.txt";
 entrada2 = "entrada2.txt";
@@ -90,28 +91,71 @@ print("[10]. Krauskal - Entrada 1")
 num = int(input(" => "))
 if num == 1:
     archivo = "BFS"+"/"+entrada1;
-    nodo = input("Iniciar con el Nodo: ")
-    print(nodo)
-    realizar_datos(archivo)
+    g = realizar_datos(archivo)
     g.BFS('s')
     g.show()
 if num == 2:
     archivo = "BFS"+"/"+entrada2;
+    g = realizar_datos(archivo)
+    g.BFS('s')
+    g.show()
+if num == 3:
+    archivo = "DFS/"+entrada1;
+    g = realizar_datos(archivo)
+    g.DFS()
+    g.show()
+if num == 4:
+    archivo = "DFS/"+entrada2;
+    g = realizar_datos(archivo)
+    g.DFS()
+    g.show()
+if num == 5:
+    archivo = "Trans/"+entrada1;
+    g = realizar_datos(archivo)
+    gt = g.getTrans()
+    gt.show()
+if num == 6:
+    archivo = "Trans/"+entrada2;
+    g = realizar_datos(archivo)
+    gt = g.getTrans()
+    gt.show()
+if num == 7:
+    archivo = "SCC/"+entrada1;
+    g = realizar_datos(archivo)
+    gt = g.getTrans()
+    lista = gt.SCC()
+    gt.showCSS(lista)
+if num == 8:
+    archivo = "topologico/"+entrada1;
+    g = realizar_datos(archivo)
+    g.DFS() 
+    g.show()   
+    g.sortByFDesc()
+    print("\nOrden topologico: ")
+    g.showOrdenTopo()
+if num == 9:
+    archivo = "topologico/"+entrada2;
+    g = realizar_datos(archivo)
+    g.DFS() 
+    g.show()   
+    g.sortByFDesc()
+    print("\nOrden topologico: ")
+    g.showOrdenTopo()
 
-
-
-
-
+  
 # print("G:")
 # g.BFS('s')
 # g.sortByFDesc()
 
 # g.DFS()
 # g.show()
+
 # g.sortByFDesc()
 # print("\nOrden topologico: ")
 # g.showOrdenTopo()
+
 # print("\nGT: ")
 # gt = g.getTrans()
+
 # lista = gt.SCC()
 # gt.showCSS(lista)
