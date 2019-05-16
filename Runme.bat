@@ -1,0 +1,3 @@
+py leerArchivoEntrada.py
+
+pause

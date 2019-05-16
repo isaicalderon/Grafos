@@ -87,6 +87,10 @@ print("[8]. Ordenamiento Topologico - Entrada 1")
 print("[9]. Ordenamiento Topologico - Entrada 2")
 print("[10]. Krauskal - Entrada 1")
 print("[11]. Krauskal - Entrada 2")
+print("[12]. Prim - Entrada 1")
+print("[13]. Prim - Entrada 2")
+print("[14]. Boruvka - Entrada 1")
+print("[15]. Boruvka - Entrada 2")
 
 num = int(input(" => "))
 if num == 1:
@@ -144,17 +148,29 @@ if num == 9:
 if num == 10:
     archivo = "Kruskal/"+entrada1;
     g = realizar_datos(archivo)
-    g.kruskal2()
-    # for k in K:
-    #     print(k.costo, k.origen.getNombre(), k.destino.getNombre())
-    g.show()
+    grafo = g.kruskal2()
+    grafo.show()
 if num == 11:
     archivo = "Kruskal/"+entrada2;
     g = realizar_datos(archivo)
-    g.kruskal2()
-    # for k in K:
-    #     print(k.costo, k.origen.getNombre(), k.destino.getNombre())
-    g.show()
+    grafo = g.kruskal2()
+    grafo.show()
+if num == 12:
+    archivo = "Prim/"+entrada1;
+    g = realizar_datos(archivo)
+    grafo = g.prim()
+    grafo.show()
+if num == 13:
+    archivo = "Prim/"+entrada2;
+    g = realizar_datos(archivo)
+    grafo = g.prim()
+    grafo.show()
+if num == 14:
+    archivo = "Boruvka/"+entrada1;
+    g = realizar_datos(archivo)
+    grafo = g.Boruvka()
+    grafo.show()
+
 
 # print("G:")
 # g.BFS('s')

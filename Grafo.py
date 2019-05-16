@@ -6,15 +6,16 @@ from time import time
 
 
 class Grafo:
-    base = dict()
-    ord = dict()   
-
     def __init__(self):
         self.V = {}
         self.E = []
+        self.MAX_VALUE = 2147483647
 
     def getV(self):
         return self.V
+
+    def getV2(self, num):
+        return self.V.get(num)
 
     def getE(self):
         return self.E
@@ -27,6 +28,13 @@ class Grafo:
             nodo = Nodo.Nodo(nombre)
             self.V[nombre] = nodo
         return self.V[nombre]
+
+    def addNodo2(self, nodo):
+        if nodo.getNombre() not in self.V:
+            # nodo = Nodo.Nodo(nombre)
+            self.V[nodo.getNombre()] = nodo
+            # print("se agrego el nodo: ",nodo.getNombre())
+        return nodo.getNombre()
 
     def getNodo(self, nombre):
         if nombre in self.V.keys():
@@ -41,7 +49,7 @@ class Grafo:
 
     def show2(self):
         for nodo in self.V.values():
-            nodo.show2()
+            print("nombre", nodo.nombre)
     
     def showNodos(self):
         for nodo in self.V.values():
@@ -190,24 +198,24 @@ class Grafo:
             self.V = v2
         # print("tiempo: ", format(t2-t1))
 
-    def find(self, g1, nombre):
-        for n in g1.getV().values():
-            # print("comparando: ",n.getNombre(), "con ", nombre)
+    def find(self, nombre):
+        for n in self.V.values():
+            # print("comparando: ", n.getNombre(), "con ", nombre)
             if n.getNombre() == nombre:
                 return n
-            # print("no encontro: ",nombre)
+            # print("no encontro: ", nombre)
         return None
 
     def kruskal2(self):
-        grafo = Grafo()
+        grafoTmp = Grafo()
         na = 0
         for v in self.V.values():
             name = v.getNombre()
-            print("name: ",name)
             n = Nodo.Nodo(name)
             na = na + 1
             n.setArbol(na);
-            grafo.addNodo(n);
+            grafoTmp.addNodo2(n) 
+            # print("grafo creado: ", grafoTmp.getNodo(n.getNombre()))
             v.setArbol(na)
 
         edges = list(self.E)
@@ -232,71 +240,182 @@ class Grafo:
                     if v2.getArbol() == vx or v2.getArbol() == uy:
                         v2.setArbol(na)
 
-                on = grafo.find(self, menor.origen.getNombre())
-                od = grafo.find(self, menor.destino.getNombre())
+                on = grafoTmp.find(menor.origen.getNombre())
+                od = grafoTmp.find(menor.destino.getNombre())
                 arco = Arco.Arco(menor.costo, on, od)
+                # print("edge: ",on.getNombre(),", ",od.getNombre(),", ",menor.costo)
                 edgesTmp.append(arco)
-
+                # grafoTmp.addArco(arco)
             edges.remove(menor)
             if len(edges) > 0:
                 menor = edges[0]
+                # print("nuevo menor: ",menor.origen.getNombre())
+        # end while
 
         for arco2 in edgesTmp:
             arco2.origen.addAdyacente(arco2.destino)
             arco2.destino.addAdyacente(arco2.origen)
+            # grafoTmp.addArco(arco2)
+            # print("arco2 origen:", arco2.origen.getNombre())
+            # print("arco2 destino:", arco2.destino.getNombre()   )
+                
+        grafoTmp.setE(edgesTmp)
+        return grafoTmp
 
-        grafo.setE(edgesTmp)
-        return grafo
-
-    def make_set(self, v):
-        self.base[v] = v
-        self.ord[v] = 0
-
-    # def find(self, v):
-    #     if self.base[v] != v:
-    #         self.base[v] = self.find(self.base[v])
-    #     return self.base[v]
-
-    def union(self, u, v):
-        v1 = self.find(u)
-        v2 = self.find(v)
-        # print("u: ",u)
-        # print("v: ",v)
-        # print("v1: ",v1)
-        # print("v2: ",v2)
-        
-        if v1 != v2:
-            if self.ord[v1] > self.ord[v2]:
-                self.base[v2] = v1 
-            else:
-                self.base[v1] = v2
-                if self.ord[v1] == self.ord[v2]: 
-                    self.ord[v2] += 1
-
-    def kruskal(self):
-        # A = {conjunto vacío}
-        mst = set()
-        for v in self.V.values():
-            # print(v.getNombre())
-            self.make_set(v.getNombre())
-        # print ("Sub gráficos creados:")
-        # print (self.base)
-
-        # Ordena la lista G.E en forma no decendente por su peso w
-        # En este caso usamos el ordenador dentro de python
+    def prim(self):
+        gPrim = Grafo()
         edges = list(self.E)
-        edges.sort(key=lambda x:x.costo, reverse = False)
-        
-        # Para toda arista(u,v) en G.E
-        for e in edges:
-            weight = e.costo
-            u = e.origen
-            v = e.destino
-            print(weight, u.getNombre(), v.getNombre())
-            # Si encontrar-conjunto(u) != encontrar-conjunto(v)
-            if self.find(u.getNombre()) != self.find(v.getNombre()):
-                # A = A union (u,v)
-                self.union(u.getNombre(), v.getNombre())
-                # Union(u,v)
-                mst.add(e)
-        return mst
+        lst = list(self.V.items())
+        gPrim.addNodo(lst[0][1].getNombre())
+        m = self.MAX_VALUE
+        arcoAux = Arco.Arco(1, Nodo.Nodo(""), Nodo.Nodo(""))
+        boolNa = False
+
+        while True:
+            for arco in edges:
+                for nodo in gPrim.getV().values():
+                    
+                    c1 = gPrim.find(arco.origen.getNombre()) != None
+                    c2 = gPrim.find(arco.destino.getNombre()) != None
+                    
+                    if (c1 and (not c2)) or (c2 and (not c1)) : 
+                        # print("arco-Or: ",arco.origen.getNombre()," equalsTo ",nodo.getNombre())
+                        if arco.origen.getNombre() == nodo.getNombre() and arco.costo <= m:
+                            m = arco.costo
+                            arcoAux = arco
+                            boolNa = False
+                        
+                        if arco.destino.getNombre() == nodo.getNombre() and arco.costo <= m:
+                            m = arco.costo
+                            arcoAux = arco
+                            boolNa = True
+                # end for
+            # end for
+            print(boolNa)
+            if boolNa == True:
+                gPrim.addNodo(arcoAux.origen.getNombre())
+            else:
+                gPrim.addNodo(arcoAux.destino.getNombre())
+            
+            # print("remove", arcoAux.origen.getNombre())
+            edges.remove(arcoAux)
+
+            arcoAux =  Arco.Arco(m, gPrim.find(arcoAux.origen.getNombre()), gPrim.find(arcoAux.destino.getNombre()))
+
+            gPrim.addArco(arcoAux)
+
+            m = 2147483647
+
+            # print("gPrim.V size: ",len(gPrim.getV())," contra V size: ",len(self.V))
+            if len(gPrim.getV()) >= len(self.V):
+                break
+       # end while
+
+        for arco2 in gPrim.getE():
+            arco2.origen.addAdyacente(arco2.destino)
+            arco2.destino.addAdyacente(arco2.origen)
+
+        return gPrim
+                                      
+    def Boruvka(self):
+        gBoruvka = Grafo()
+        cola = list()
+
+        edges = list(self.E)
+        edgesTmp = list()
+
+        for nodo in self.V.values():
+            gtmp = Grafo()
+            n = Nodo.Nodo(nodo.getNombre())
+            gtmp.addNodo2(nodo)
+            cola.append(gtmp)
+            gBoruvka.addNodo2(n)
+        # end for
+
+        while len(cola) > 1:
+            gt = cola.pop(0)
+            arcoAux = None
+            mv = self.MAX_VALUE
+            bl = False
+
+            for nodo in gt.getV().values():
+                for arco in edges:
+                    if (arco.origen.getNombre() == nodo.getNombre() or arco.destino.getNombre() == nodo.getNombre()):
+                        if (arco.costo <= mv):
+                            mv = arco.costo
+                            print("agregando arco: ",arco.destino.getNombre())
+                            arcoAux = arco;
+                            if (arco.origen.getNombre() == nodo.getNombre()):
+                                bl = True;
+                            else:
+                                bl = False;
+            # end for
+            print("remove: ",arcoAux.origen.getNombre())
+            edges.remove(arcoAux)
+            bl2 = False
+
+            for arco in gBoruvka.getE():
+                cb1 = arco.origen.getNombre()  == arcoAux.origen.getNombre()
+                cb2 = arco.destino.getNombre() == arcoAux.destino.getNombre()
+                print(cb1, cb2)
+                if cb1 and cb2:
+                    bl2 = True
+            # end for
+            
+            if not bl2:
+                arcotmp = Arco.Arco(arcoAux.costo, gBoruvka.find(arcoAux.origen.getNombre()), gBoruvka.find(arcoAux.destino.getNombre()))
+                gBoruvka.addArco(arcotmp)
+
+                bEncontrado = False
+                c1 = 0
+
+                while True:
+                    c2 = 0
+                    e2 = False
+                    while True:
+                        f = ""
+                        
+                        if bl == True:
+                            f = arcoAux.destino.getNombre()
+                        else:
+                            f = arcoAux.origen.getNombre()
+
+                        lst = list(cola[c1].getV().items())
+                        
+                        print(c2)
+
+                        print("cola: ", lst[c2][1].getNombre()," - f: ", f)
+
+                        if lst[0][1].getNombre() == f:
+                            e2 = True
+                            encontrado = True
+
+                            # for (Nodo nx : cola.get(c1).getV()) :
+                            for nodo in cola[c1].getV().values():
+                                gt.addNodo2(nodo);
+                            
+                            # cola.remove(c1);
+                            del cola[c1]
+                            cola.append(gt)
+
+                        if (e2 == False):
+                            c2 += 1
+
+                        if not (c2 < len(cola[c1].getV()) and (not e2)):
+                            break
+                    # end while 
+                    if (not encontrado):
+                        c1+=1
+                    
+                    if not (c1 < len(cola) and not encontrado):
+                        break;
+                # end while
+
+        # end while
+        for arco2 in gBoruvka.getE():
+            arco2.origen.addAdyacente(arco2.destino)
+            arco2.destino.addAdyacente(arco2.origen)
+
+        return gBoruvka
+
+

@@ -64,6 +64,7 @@ class Nodo:
         print("(",self.d,"/", self.f,sep="", end="")
 
         print("):", end=" ")
+        # print("adjunta: ",self.adjunta)
         for adyacente in self.adjunta:
             print(adyacente.getNombre(), end=", ")
         print("")

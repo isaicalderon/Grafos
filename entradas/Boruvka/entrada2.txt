@@ -1,0 +1,8 @@
+dirigido=no
+costo=si
+r s:1 v:1
+s w:1
+t u:1 w:1 x:1
+u y:1
+x y:1
+w x:1
