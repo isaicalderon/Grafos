@@ -6,3 +6,11 @@ class Arco:
         self.origen  =  origen
         self.destino =  destino
         
+ #    def getCosto(self):
+ #    	return self.costo
+
+	# def getOrigen(self):
+	# 	return self.origen
+
+	# def getDestino(self):
+	# 	return self.destino

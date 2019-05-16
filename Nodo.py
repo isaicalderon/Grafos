@@ -9,6 +9,7 @@ class Nodo:
         self.p = None
         self.color = "Blanco"
         self.adjunta = []
+        self.arbol = 0
 
     def getNombre(self):
         return self.nombre
@@ -49,6 +50,13 @@ class Nodo:
     def clearAdjunta(self):
         self.adjunta.clear
     
+    def setArbol(self, arbol):
+        self.arbol = arbol;
+    
+    def getArbol(self):
+        return self.arbol;
+
+
     def show(self):
         # print("(", end="")
         # print(self.nombre, self.d, self.f, self.color, sep=", ", end="")

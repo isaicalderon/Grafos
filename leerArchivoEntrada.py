@@ -10,7 +10,6 @@ def realizar_datos(archivo):
     archivo = open("entradas/"+archivo)
     costo   = "X"
     g       = Grafo.Grafo()
-
     linea   = archivo.readline()
     linea   = linea.rstrip()
     linea   = linea.strip()
@@ -38,8 +37,8 @@ def realizar_datos(archivo):
                 for i in range(1, len(tmp)):
                     destino = g.addNodo(tmp[i])
                     origen.addAdyacente(destino)
-                    if dirigido == "no":
-                        origen.addAdyacente(destino)
+                    # if dirigido == "no":
+                        # origen.addAdyacente(destino)
                     arco = Arco.Arco(1, origen, destino)
                     g.addArco(arco)
                 # end for
@@ -61,8 +60,8 @@ def realizar_datos(archivo):
                     costo = float(costo[0])
                     destino = g.addNodo(name)
                     origen.addAdyacente(destino)
-                    if dirigido == "no":
-                        origen.addAdyacente(destino)
+                    # if dirigido == "no":
+                        # origen.addAdyacente(destino)
                     arco = Arco.Arco(costo, origen, destino)
                     g.addArco(arco)
                 # end for
@@ -87,6 +86,7 @@ print("[7]. SCC - Entrada 1")
 print("[8]. Ordenamiento Topologico - Entrada 1")
 print("[9]. Ordenamiento Topologico - Entrada 2")
 print("[10]. Krauskal - Entrada 1")
+print("[11]. Krauskal - Entrada 2")
 
 num = int(input(" => "))
 if num == 1:
@@ -141,8 +141,21 @@ if num == 9:
     g.sortByFDesc()
     print("\nOrden topologico: ")
     g.showOrdenTopo()
+if num == 10:
+    archivo = "Kruskal/"+entrada1;
+    g = realizar_datos(archivo)
+    g.kruskal2()
+    # for k in K:
+    #     print(k.costo, k.origen.getNombre(), k.destino.getNombre())
+    g.show()
+if num == 11:
+    archivo = "Kruskal/"+entrada2;
+    g = realizar_datos(archivo)
+    g.kruskal2()
+    # for k in K:
+    #     print(k.costo, k.origen.getNombre(), k.destino.getNombre())
+    g.show()
 
-  
 # print("G:")
 # g.BFS('s')
 # g.sortByFDesc()
