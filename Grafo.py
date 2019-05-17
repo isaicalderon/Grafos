@@ -291,7 +291,7 @@ class Grafo:
                             boolNa = True
                 # end for
             # end for
-            print(boolNa)
+            # print(boolNa)
             if boolNa == True:
                 gPrim.addNodo(arcoAux.origen.getNombre())
             else:
@@ -321,9 +321,6 @@ class Grafo:
         gBoruvka = Grafo()
         cola = list()
 
-        edges = list(self.E)
-        edgesTmp = list()
-
         for nodo in self.V.values():
             gtmp = Grafo()
             n = Nodo.Nodo(nodo.getNombre())
@@ -332,32 +329,55 @@ class Grafo:
             gBoruvka.addNodo2(n)
         # end for
 
+        edges = list(self.E)
+        edgesTmp = list()
+        
+        # for edge in edges:
+        #     print(edge.origen.getNombre(), edge.destino.getNombre())
+
         while len(cola) > 1:
+            
+            # for grafo in cola:
+            #     grafo.show()
+
             gt = cola.pop(0)
+            # print("pop GT: ")
+            # for gtx in gt.getV().values():
+            #     gtx.show()
+
             arcoAux = None
             mv = self.MAX_VALUE
             bl = False
-
+            cont = 0
             for nodo in gt.getV().values():
                 for arco in edges:
+                    cont+=1
+                    # print("******")
+                    # print("arco: ",arco.origen.getNombre()," equalsTo ",nodo.getNombre())
+                    # print("OR")
+                    # print("arco: ",arco.destino.getNombre()," equalsTo ",nodo.getNombre())
+                    
                     if (arco.origen.getNombre() == nodo.getNombre() or arco.destino.getNombre() == nodo.getNombre()):
+                        # print("entro entro", cont)
                         if (arco.costo <= mv):
                             mv = arco.costo
-                            print("agregando arco: ",arco.destino.getNombre())
+                            # print("agregando arco: ",arco.origen.getNombre())
                             arcoAux = arco;
                             if (arco.origen.getNombre() == nodo.getNombre()):
                                 bl = True;
                             else:
                                 bl = False;
             # end for
-            print("remove: ",arcoAux.origen.getNombre())
+            # print("remove: ", arcoAux.origen.getNombre())
             edges.remove(arcoAux)
+            # del edges[arcoAux]
+
             bl2 = False
 
             for arco in gBoruvka.getE():
                 cb1 = arco.origen.getNombre()  == arcoAux.origen.getNombre()
                 cb2 = arco.destino.getNombre() == arcoAux.destino.getNombre()
-                print(cb1, cb2)
+                # print(cb1, cb2)
                 if cb1 and cb2:
                     bl2 = True
             # end for
@@ -366,7 +386,7 @@ class Grafo:
                 arcotmp = Arco.Arco(arcoAux.costo, gBoruvka.find(arcoAux.origen.getNombre()), gBoruvka.find(arcoAux.destino.getNombre()))
                 gBoruvka.addArco(arcotmp)
 
-                bEncontrado = False
+                encontrado = False
                 c1 = 0
 
                 while True:
@@ -382,19 +402,22 @@ class Grafo:
 
                         lst = list(cola[c1].getV().items())
                         
-                        print(c2)
+                        # print(c2)
 
-                        print("cola: ", lst[c2][1].getNombre()," - f: ", f)
+                        # print("cola: ", lst[c2][1].getNombre()," - f: ", f)
 
                         if lst[0][1].getNombre() == f:
+                            # print("Entro #204")
                             e2 = True
                             encontrado = True
 
                             # for (Nodo nx : cola.get(c1).getV()) :
                             for nodo in cola[c1].getV().values():
+                                # print("agregando gt nodo: ", nodo.getNombre())
                                 gt.addNodo2(nodo);
                             
                             # cola.remove(c1);
+                            # print("removiendo index de la cola: ", c1)
                             del cola[c1]
                             cola.append(gt)
 

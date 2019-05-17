@@ -1,5 +1,7 @@
 dirigido=si
 costo=si
+nodos=si
+a b c d e f g h
 a b:4 h:8
 b c:8 h:11
 c d:7 f:4 i:2

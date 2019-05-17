@@ -1,5 +1,7 @@
 dirigido=no
 costo=si
+nodos=si
+r s t u v w x y
 r s:1 v:1
 s w:1
 t u:1 w:1 x:1

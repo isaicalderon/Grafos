@@ -10,21 +10,34 @@ def realizar_datos(archivo):
     archivo = open("entradas/"+archivo)
     costo   = "X"
     g       = Grafo.Grafo()
+    
     linea   = archivo.readline()
     linea   = linea.rstrip()
     linea   = linea.strip()
     tmpD    = re.findall("^dirigido\s*=\s*(\S+)",linea)
+    
     linea   = archivo.readline()
     linea   = linea.rstrip()
     linea   = linea.strip()
     tmp     = re.findall("^costo\s*=\s*(\S+)",linea)
-        
+
+    linea   = archivo.readline()
+    linea   = linea.rstrip()
+    linea   = linea.strip()
+    tmpNodos     = re.findall("^nodos\s*=\s*(\S+)",linea)
+    
+    
 
     if len(tmp) > 0:
         costo = tmp[0]
     # end if
     if len(tmpD) > 0:
         dirigido = tmpD[0]
+    
+    if len(tmpNodos) > 0:
+        bNodos = tmpNodos[0]
+    else:
+        bNodos = "no"
 
     if(costo == "no"):
         for linea in archivo.readlines():
@@ -52,21 +65,33 @@ def realizar_datos(archivo):
             # print (costo)
         # end for
             if len(tmp) > 0:
-                origen = g.addNodo(tmp[0])
-                for i in range(1, len(tmp)):
-                    name = re.findall("(\S+)\s*:", tmp[i]);
-                    costo = re.findall(":\s*(\S+)", tmp[i])
-                    name = name[0]
-                    costo = float(costo[0])
-                    destino = g.addNodo(name)
-                    origen.addAdyacente(destino)
-                    # if dirigido == "no":
+
+                if bNodos == "si":
+                    # print("leyendo: ",tmp)
+                    for nx in tmp:
+                        # print("nodo ", nx)
+                        g.addNodo(nx)
+                    bNodos = "no"
+                else:
+                    origen = g.addNodo(tmp[0])
+                    for i in range(1, len(tmp)):
+                        name = re.findall("(\S+)\s*:", tmp[i]);
+                        costo = re.findall(":\s*(\S+)", tmp[i])
+                        name = name[0]
+                        costo = float(costo[0])
+                        destino = g.addNodo(name)
                         # origen.addAdyacente(destino)
-                    arco = Arco.Arco(costo, origen, destino)
-                    g.addArco(arco)
+
+                        # if dirigido == "no":
+                            # origen.addAdyacente(destino)
+                        arco = Arco.Arco(costo, g.find(origen.getNombre()), g.find(destino.getNombre()))
+                        g.addArco(arco)
                 # end for
             # end if
         # end for
+        for arco2 in g.getE():
+            arco2.origen.addAdyacente(arco2.destino)
+            arco2.destino.addAdyacente(arco2.origen)
     # end elif
     return g
     # archivo.close()
@@ -148,43 +173,54 @@ if num == 9:
 if num == 10:
     archivo = "Kruskal/"+entrada1;
     g = realizar_datos(archivo)
+    print("ORIGINAL")
+    g.show()
+    print("")
+    print("KRUSKAL")
     grafo = g.kruskal2()
     grafo.show()
 if num == 11:
     archivo = "Kruskal/"+entrada2;
     g = realizar_datos(archivo)
+    print("ORIGINAL")
+    g.show()
+    print("")
+    print("KRUSKAL")
     grafo = g.kruskal2()
     grafo.show()
 if num == 12:
     archivo = "Prim/"+entrada1;
     g = realizar_datos(archivo)
+    print("ORIGINAL")
+    g.show()
+    print("")
+    print("PRIM")
     grafo = g.prim()
     grafo.show()
 if num == 13:
     archivo = "Prim/"+entrada2;
     g = realizar_datos(archivo)
+    print("ORIGINAL")
+    g.show()
+    print("")
+    print("PRIM")
     grafo = g.prim()
     grafo.show()
 if num == 14:
     archivo = "Boruvka/"+entrada1;
     g = realizar_datos(archivo)
+    print("ORIGINAL")
+    g.show()
+    print("")
+    print("BORUVKA")
     grafo = g.Boruvka()
     grafo.show()
-
-
-# print("G:")
-# g.BFS('s')
-# g.sortByFDesc()
-
-# g.DFS()
-# g.show()
-
-# g.sortByFDesc()
-# print("\nOrden topologico: ")
-# g.showOrdenTopo()
-
-# print("\nGT: ")
-# gt = g.getTrans()
-
-# lista = gt.SCC()
-# gt.showCSS(lista)
+if num == 15:
+    archivo = "Boruvka/"+entrada2;
+    g = realizar_datos(archivo)
+    print("ORIGINAL")
+    g.show()
+    print("")
+    print("BORUVKA")
+    grafo = g.Boruvka()
+    grafo.show()
